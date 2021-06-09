@@ -6,7 +6,7 @@
 # Go tests use this curl binary for integration tests.
 #
 
-FROM ubuntu:trusty
+FROM aarch64/ubuntu:trusty
 
 RUN apt-get update && \
     apt-get upgrade -y && \

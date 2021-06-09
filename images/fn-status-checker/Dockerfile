@@ -1,5 +1,5 @@
 # build stage
-FROM golang:1.10-alpine AS build-env
+FROM arm64v8/golang:1.10-alpine AS build-env
 RUN apk --no-cache add git
 ENV D=/go/src/github.com/fnproject/fn/images/fn-status-checker
 RUN go get -u github.com/golang/dep/cmd/dep
@@ -9,7 +9,7 @@ ADD . $D
 RUN cd $D && go build -ldflags="-s -w" -o fn-status-checker && cp fn-status-checker /tmp/
 
 # final stage
-FROM alpine
+FROM arm64v8/alpine
 WORKDIR /function
 COPY --from=build-env /tmp/fn-status-checker /function
 ENTRYPOINT ["./fn-status-checker"]

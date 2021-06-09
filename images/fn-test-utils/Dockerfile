@@ -1,5 +1,5 @@
 # build stage
-FROM golang:1.10-alpine AS build-env
+FROM arm64v8/golang:1.10-alpine AS build-env
 RUN apk --no-cache add git
 ENV D=/go/src/github.com/fnproject/fn/images/fn-test-utils
 RUN go get -u github.com/golang/dep/cmd/dep
@@ -9,7 +9,7 @@ ADD . $D
 RUN cd $D && go build -o fn-test-utils && cp fn-test-utils /tmp/
 
 # final stage
-FROM alpine
+FROM arm64v8/alpine
 RUN addgroup -g 1000 -S fn && adduser -S -u 1000 -G fn fn
 WORKDIR /function
 COPY --from=build-env /tmp/fn-test-utils /function
